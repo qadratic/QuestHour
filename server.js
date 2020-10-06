@@ -4,8 +4,34 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-
 var app = express();
+const helmet = require("helmet");
+app.use(helmet());
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+//Swagger setup
+const swaggerOptions = {
+  explorer: true,
+  swaggerDefinition: {
+    info: {
+      title: "Quest Hour API",
+      description: "Quest Hour API Documentation",
+      version: "1.0.0",
+      servers: [`http://localhost:${port}`],
+    },
+  },
+
+  apis: [
+    "server.js",    
+  ],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs-quest", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
+
 
 require('dotenv').config();
 const port = process.env.PORT | 5000;
