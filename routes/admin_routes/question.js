@@ -9,7 +9,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-	// console.log(req.user,req.admin)
+
 	let new_question = new Question({
 		question: req.body.question,
 		marks: req.body.marks,
@@ -41,7 +41,7 @@ router.route('/add').post((req, res) => {
 router.route('/delete/:id').delete((req, res) => {
 	Question.findByIdAndDelete(req.params.id)
 		.then(() => {
-			res.json('ok');
+			res.status(200).json('ok');
 		})
 		.catch(err => {
 			res.status(400).json(err);
